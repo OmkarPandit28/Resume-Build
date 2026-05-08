@@ -1,0 +1,9 @@
+
+Project Fixes Applied
+
+1. Removed corrupted accidental folders
+2. Added backend rate limiting
+3. Added backend email validation
+4. Protected OTP routes
+5. Protected payment routes
+6. Updated package.json dependencies
