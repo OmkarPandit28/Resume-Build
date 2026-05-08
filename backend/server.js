@@ -61,9 +61,16 @@ mongoose
   .connect(process.env.MONGO_URI || "mongodb://localhost:27017/internhub_resume")
   .then(() => {
     console.log("✅ MongoDB connected");
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`🚀 Server → http://localhost:${PORT}`));
+
+    const PORT = process.env.PORT || 5001;
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
   })
-  .catch((err) => { console.error("❌ MongoDB failed:", err.message); process.exit(1); });
+  .catch((err) => {
+    console.error("❌ MongoDB failed:", err.message);
+    process.exit(1);
+  });
 
 module.exports = app;
