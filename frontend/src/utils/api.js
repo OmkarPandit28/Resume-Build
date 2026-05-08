@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const BASE =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:5001/api";
+  process.env.REACT_APP_API_URL ||
+  "https://resume-builder-backend-o2t5.onrender.com/api";
 
 console.log("API URL:", BASE);
 
