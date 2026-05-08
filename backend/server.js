@@ -15,11 +15,16 @@ if (!fs.existsSync(photosDir))  fs.mkdirSync(photosDir,  { recursive: true });
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
 app.use(cors({
-  origin: true,
+  origin: [
+    "http://localhost:3000",
+    "https://resume-build-three-gamma.vercel.app"
+  ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.options("*", cors());
 app.options("*", cors());
 
 // ── Body parsers ──────────────────────────────────────────────────────────────
