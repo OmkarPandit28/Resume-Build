@@ -22,7 +22,7 @@ function inr(paise) {
 async function sendInvoiceEmail({ to, name, invoiceId, paymentId, amount, gst, total, pdfUrl, plan }) {
   const transporter = createTransporter();
   const date        = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
-  const backendUrl  = process.env.BACKEND_URL || "http://localhost:5000";
+  const backendUrl  = process.env.BACKEND_URL || "http://localhost:5001";
   const fullPdfUrl  = pdfUrl.startsWith("http") ? pdfUrl : `${backendUrl}${pdfUrl}`;
 
   const rows = [

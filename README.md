@@ -88,7 +88,7 @@ mongod --dbpath /data/db
 ```bash
 # Terminal 1 – Backend
 cd backend && npm run dev
-# → http://localhost:5000
+# → http://localhost:5001
 
 # Terminal 2 – Frontend
 cd frontend && npm start
@@ -134,9 +134,9 @@ cd frontend && npm start
 ### Backend `.env`
 
 ```env
-PORT=5000
+PORT=5001
 NODE_ENV=development
-BACKEND_URL=http://localhost:5000
+BACKEND_URL=http://localhost:5001
 
 MONGO_URI=mongodb://localhost:27017/internhub_resume
 
@@ -157,7 +157,7 @@ RESUME_FEE_PAISE=5000
 ### Frontend `.env`
 
 ```env
-REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_API_URL=http://localhost:5001/api
 REACT_APP_RAZORPAY_KEY_ID=rzp_test_XXXXXXXXXXXXXXXX
 ```
 

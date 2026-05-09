@@ -165,7 +165,7 @@ router.post("/verify", paymentLimiter, async (req, res) => {
       console.error("Invoice email failed:", mailErr.message);
     }
 
-    const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+    const backendUrl = process.env.BACKEND_URL || "http://localhost:5001";
 
     res.json({
       success:   true,

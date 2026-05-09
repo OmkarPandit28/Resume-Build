@@ -17,7 +17,9 @@ export default function SuccessScreen({ data, onReset }) {
     ["Date",          new Date(data.paidAt).toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })]
   ];
 
-  const pdfUrl = data.pdfFullUrl || `http://localhost:5000${data.pdfUrl}`;
+const pdfUrl =
+  data.pdfFullUrl ||
+  `${process.env.BACKEND_URL || "http://localhost:5001"}${data.pdfUrl}`;  
 
   return (
     <div className="success-wrap">
