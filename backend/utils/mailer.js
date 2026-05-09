@@ -2,10 +2,10 @@ const nodemailer = require("nodemailer");
 
 function createTransporter() {
   return nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    requireTLS: true,
+    host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: Number(process.env.SMTP_PORT) === 465,
+    requireTLS: Number(process.env.SMTP_PORT) !== 465,
 
     auth: {
       user: process.env.SMTP_USER,
@@ -24,6 +24,8 @@ function inr(paise) {
 
 async function sendInvoiceEmail({ to, name, invoiceId, paymentId, amount, gst, total, pdfUrl, plan }) {
   const transporter = createTransporter();
+  await transporter.verify();
+  console.log("Invoice email SMTP verified");
   const date        = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
   const backendUrl  = process.env.BACKEND_URL || "http://localhost:5001";
   const fullPdfUrl  = pdfUrl.startsWith("http") ? pdfUrl : `${backendUrl}${pdfUrl}`;
@@ -121,7 +123,7 @@ async function sendInvoiceEmail({ to, name, invoiceId, paymentId, amount, gst, t
 </html>`;
 
   const info = await transporter.sendMail({
-    from:    process.env.SMTP_FROM || "InternHub <noreply@internhub.com>",
+    from: process.env.SMTP_FROM || `InternHub <${process.env.SMTP_USER}>`,
     to,
     subject: `Invoice #${invoiceId} – Your InternHub Resume is Ready! 🎉`,
     html,
