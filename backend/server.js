@@ -6,6 +6,7 @@ const path     = require("path");
 const fs       = require("fs");
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ── Ensure upload directories exist ──────────────────────────────────────────
 const uploadsDir = path.join(__dirname, "uploads");
