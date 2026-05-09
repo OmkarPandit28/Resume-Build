@@ -25,7 +25,6 @@ app.use(cors({
 }));
 
 app.options("*", cors());
-app.options("*", cors());
 
 // ── Body parsers ──────────────────────────────────────────────────────────────
 // IMPORTANT: express body parsers must NOT run for multipart/form-data.

@@ -32,8 +32,7 @@ function createTransporter() {
 async function sendOTPEmail(email, otp, name, expiryMin) {
   const transporter = createTransporter();
 
-  // verify SMTP connection first
-  await transporter.verify();
+
 
   const html = `<!DOCTYPE html>
 <html lang="en">
