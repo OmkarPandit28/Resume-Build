@@ -15,16 +15,20 @@ if (!fs.existsSync(photosDir))  fs.mkdirSync(photosDir,  { recursive: true });
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://resume-build-three-gamma.vercel.app"
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
 
-app.options("*", cors());
+    if (
+      origin.includes("localhost") ||
+      origin.endsWith(".vercel.app")
+    ) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true
+}));
 
 // ── Body parsers ──────────────────────────────────────────────────────────────
 // IMPORTANT: express body parsers must NOT run for multipart/form-data.
