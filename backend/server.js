@@ -54,9 +54,13 @@ app.use("/api/resume",  require("./routes/resume"));
 app.use("/api/payment", require("./routes/payment"));
 
 // Health check
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", time: new Date().toISOString() });
+app.get("/", (req, res) => {
+  res.send("Backend running");
 });
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK" });
+}); 
 
 // ── Global error handler ──────────────────────────────────────────────────────
 app.use((err, req, res, _next) => {
