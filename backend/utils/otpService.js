@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+const SibApiV3Sdk = require("sib-api-v3-sdk");
 const crypto = require("crypto");
 const { OTP } = require("../config/models");
 
@@ -6,36 +6,11 @@ function generateOTP() {
   return crypto.randomInt(100000, 999999).toString();
 }
 
-function createTransporter() {
-  return nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    requireTLS: true,
-
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-
-    connectionTimeout: 60000,
-    greetingTimeout: 60000,
-    socketTimeout: 60000,
-  });
-}
-
 async function sendOTPEmail(email, otp, name, expiryMin) {
- const transporter = createTransporter();
+  const client = SibApiV3Sdk.ApiClient.instance;
+  client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
-console.log("SMTP_HOST =", process.env.SMTP_HOST);
-console.log("SMTP_PORT =", process.env.SMTP_PORT);
-console.log("SMTP_USER =", process.env.SMTP_USER);
-console.log("SMTP_FROM =", process.env.SMTP_FROM);
-
-await transporter.verify();
-console.log("SMTP VERIFIED");
-
-
+  const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -120,17 +95,23 @@ console.log("SMTP VERIFIED");
 </body>
 </html>`;
 
-  const info = await transporter.sendMail({
-    from: process.env.SMTP_FROM || `InternHub <${process.env.SMTP_USER}>`,
-    to: email,
+  await apiInstance.sendTransacEmail({
+    sender: {
+      name: "InternHub",
+      email: process.env.SMTP_USER,
+    },
+    to: [
+      {
+        email,
+        name,
+      },
+    ],
     subject: `${otp} is your InternHub OTP — valid for ${expiryMin} min`,
-    html,
-    text: `Your InternHub Resume OTP is: ${otp}
-Valid for ${expiryMin} minutes.
-Do not share this with anyone.`,
+    htmlContent: html,
+    textContent: `Your InternHub Resume OTP is: ${otp}\nValid for ${expiryMin} minutes.\nDo not share this with anyone.`,
   });
 
-  return info;
+  return true;
 }
 
 async function createAndSendOTP(email, name = "Student") {
