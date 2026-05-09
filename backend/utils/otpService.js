@@ -89,7 +89,7 @@ async function sendOTPEmail(email, otp, name, expiryMin) {
 </html>`;
 
   const info = await transporter.sendMail({
-    from:    process.env.SMTP_FROM || "InternHub <noreply@internhub.com>",
+    from: process.env.SMTP_FROM || `InternHub <${process.env.SMTP_USER}>`,
     to:      email,
     subject: `${otp} is your InternHub OTP — valid for ${expiryMin} min`,
     html,
