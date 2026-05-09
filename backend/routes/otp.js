@@ -28,7 +28,7 @@ router.post("/send", otpLimiter, async (req, res) => {
       expiryMin
     });
   } catch (err) {
-    console.error("OTP send error:", err.message);
+    console.error("OTP send FULL error:", err);
     res.status(500).json({
       success: false,
       error: "Failed to send OTP. Check your email configuration.",
