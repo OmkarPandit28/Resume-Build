@@ -2,14 +2,19 @@ const nodemailer = require("nodemailer");
 
 function createTransporter() {
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
+
     auth: {
       user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+      pass: process.env.SMTP_PASS,
     },
+
     connectionTimeout: 60000,
     greetingTimeout: 60000,
-    socketTimeout: 60000
+    socketTimeout: 60000,
   });
 }
 

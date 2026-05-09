@@ -7,25 +7,20 @@ function generateOTP() {
 }
 
 function createTransporter() {
-  const port = Number(process.env.SMTP_PORT || 465);
-
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port,
-    secure: port === 465,
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
 
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
 
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
-
-    tls: {
-      rejectUnauthorized: false,
-    },
+    connectionTimeout: 60000,
+    greetingTimeout: 60000,
+    socketTimeout: 60000,
   });
 }
 
